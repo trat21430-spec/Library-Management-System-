@@ -23,7 +23,7 @@ public class Book_Management {
     public static void main(String[] args) {
         int choice;
         do {
-            System.out.println("==BOOK MANAGEMENT==");
+            System.out.print("==BOOK MANAGEMENT==");
             System.out.println("1-Add book");
             System.out.println("2-Update book");
             System.out.println("3-Remove book");
