@@ -17,14 +17,17 @@ public class OOPBOOKMANAGEMENT {
         ArrayList<Books> bookManageList = new ArrayList<>();
         int choice;
         do{
+            System.out.println("=========================");
             System.out.println("BOOK MANAGEMENT!!!");
+            System.out.println("=========================");
             System.out.println("1-ADD BOOK");
             System.out.println("2-UPDATE BOOK");
             System.out.println("3-REMOVE BOOK");
             System.out.println("4-SEARCH BOOK");
             System.out.println("5-VIEW BOOK");
             System.out.println("0-EXIT!");
-            System.out.print("CHOOSE: ");
+            System.out.println("--------------------------");
+            System.out.print("choose an option: ");
             choice = sc.nextInt();
             sc.nextLine();
             

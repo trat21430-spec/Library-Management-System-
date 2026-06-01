@@ -13,7 +13,8 @@ import java.util.ArrayList;
 public class AddBooks {
     public void execute(ArrayList<Books> bookList,Scanner sc){
         Books newBook = new Books();
-        System.out.print("ID: ");
+        System.out.println("------------ADD BOOK----------");
+        System.out.print("Book ID: ");
         newBook.setID(sc.nextLine());
         System.out.print("Title: ");
         newBook.setTitle(sc.nextLine());
@@ -21,14 +22,22 @@ public class AddBooks {
         newBook.setAuthor(sc.nextLine());
         System.out.print("Genre: ");
         newBook.setGenre(sc.nextLine());
-        System.out.print("Year: ");
+        System.out.print("Publication Year: ");
         newBook.setYear(sc.nextInt());
         System.out.print("Quantity: ");
         newBook.setQuantity(sc.nextInt());
         sc.nextLine();
         
-        bookList.add(newBook);
-        System.out.println("Successfully Added!");
+        System.out.print("[1] Save [2] Cancel: ");
+        int confirm = sc.nextInt();
+        sc.nextLine();
+        
+        if (confirm == 1) {
+            bookList.add(newBook);
+            System.out.println("Successfully added!");
+        } else {
+            System.out.println("Operation cancelled!"); 
+        }
     }
 
     

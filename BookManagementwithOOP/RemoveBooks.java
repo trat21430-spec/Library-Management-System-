@@ -18,13 +18,22 @@ public class RemoveBooks {
         String findID = sc.nextLine();
         for (int i = 0; i < bookList.size(); i++) {
             if (bookList.get(i).getID().equals(findID)) {
-                bookList.remove(i);
-                System.out.print("Successfully Remove!!");
+
+                System.out.println("Found book: " + bookList.get(i).getTitle());
+                System.out.print("[1] Delete [2] Cancel: ");
+                int confirm = sc.nextInt();
+                sc.nextLine();
+
+                if (confirm == 1) {
+                    bookList.remove(i);
+                    System.out.println("Removed successfully!");
+                } else {
+                    System.out.println("Operation cancelled!");
+                }
                 return;
             }
         }
         System.out.print("Books not found");
     }
 
-   
 }

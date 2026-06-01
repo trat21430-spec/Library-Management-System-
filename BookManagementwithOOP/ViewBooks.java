@@ -12,21 +12,30 @@ import java.util.Scanner;
  * @author LOQ
  */
 public class ViewBooks {
-    public void execute( ArrayList<Books> bookList, Scanner sc){
-if ( bookList.isEmpty()){
-System.out.print("No books found");
-return;
-}
-int index = 1;
-for( Books b : bookList){
-System.out.print(" Book " + index++);
-System.out.println("ID:  " + b.getID());
-System.out.println("Title: " + b.getTitle());
-System.out.println("Author: " + b.getAuthor());
-System.out.println("Genre: " + b.getGenre());
-System.out.println("Year: " + b.getYear());
-System.out.println("Quantity: " +b.getQuantity());
-}
 
+    public void execute(ArrayList<Books> bookList, Scanner sc) {
+        if (bookList.isEmpty()) {
+            System.out.print("No books available");
+
+        } else {
+
+            System.out.printf("%-6s %-20s %-20s %-15s %-6s %-4s\n",
+                    "ID", "Title", "Author", "Genre", "Year", "Qty");
+
+            System.out.println("-------------------------------------------------------");
+            for (Books b : bookList) {
+                System.out.printf("%-6s %-20s %-20s %-15s %-6d %-4d\n",
+                        b.getID(),
+                        b.getTitle(),
+                        b.getAuthor(),
+                        b.getGenre(),
+                        b.getYear(),
+                        b.getQuantity());
+            }
+            System.out.println("-------------------------------------------------------------------------------");
+
+        }
+        System.out.print("\nPress ENTER to return...");
+        sc.nextLine();
     }
 }
