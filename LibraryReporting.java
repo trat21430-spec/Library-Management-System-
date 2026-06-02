@@ -1,188 +1,136 @@
 package com.mycompany.libaryreporting;
-
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class LibraryReporting {
 
-    static Scanner sc = new Scanner(System.in);
-
-    // ===== BOOK DATA =====
-    static ArrayList<String> bookTitles = new ArrayList<>();
-    static ArrayList<Integer> borrowCounts = new ArrayList<>();
-
-    // ===== MEMBER DATA =====
-    static ArrayList<String> memberNames = new ArrayList<>();
-    static ArrayList<Integer> memberBorrowCounts = new ArrayList<>();
-
-    // ===== BORROW DATA =====
-    static ArrayList<String> borrowedBooks = new ArrayList<>();
-    static ArrayList<Boolean> overdueStatus = new ArrayList<>();
-    static ArrayList<Integer> overdueDays = new ArrayList<>();
-
-    static final int FINE_PER_DAY = 5000;
-
     public static void main(String[] args) {
 
-        sampleData();
+        // Book Data
+        String[] bookTitles = {
+                "Java Programming",
+                "Database Systems",
+                "Operating System"
+        };
 
-        int choice;
+        int[] borrowCounts = {
+                5, 3, 7
+        };
 
-        do {
+        // Member Data
+        String[] memberNames = {
+                "Khoa",
+                "An"
+        };
 
-            System.out.println("\n========== LIBRARY REPORTING SYSTEM ==========");
-            System.out.println("1. View Currently Borrowed Books");
-            System.out.println("2. View Overdue Books");
-            System.out.println("3. View Most Popular Books");
-            System.out.println("4. View Members With Most Borrowings");
-            System.out.println("0. Exit");
+        // Borrowing Transactions
+        String[] borrowedBooks = {
+                "Java Programming",
+                "Database Systems",
+                "Operating System"
+        };
 
-            System.out.print("Enter your choice: ");
+        String[] borrowers = {
+                "Khoa",
+                "An",
+                "Khoa"
+        };
 
-            choice = Integer.parseInt(sc.nextLine());
+        boolean[] returned = {
+                false,
+                false,
+                true
+        };
 
-            switch (choice) {
+        boolean[] overdue = {
+                false,
+                true,
+                false
+        };
 
-                case 1:
-                    showBorrowedBooks();
-                    break;
-
-                case 2:
-                    showOverdueBooks();
-                    break;
-
-                case 3:
-                    showPopularBooks();
-                    break;
-
-                case 4:
-                    showTopMembers();
-                    break;
-
-                case 0:
-                    System.out.println("Program exited!");
-                    break;
-
-                default:
-                    System.out.println("Invalid choice!");
-            }
-
-        } while (choice != 0);
-    }
-
-    // ====================================
-    // SAMPLE DATA
-    // ====================================
-    static void sampleData() {
-
-        // BOOKS
-        bookTitles.add("Java Programming");
-        borrowCounts.add(20);
-
-        bookTitles.add("Database System");
-        borrowCounts.add(12);
-
-        bookTitles.add("Web Development");
-        borrowCounts.add(30);
-
-        // MEMBERS
-        memberNames.add("Khoa");
-        memberBorrowCounts.add(10);
-
-        memberNames.add("An");
-        memberBorrowCounts.add(7);
-
-        memberNames.add("Minh");
-        memberBorrowCounts.add(15);
-
-        // BORROWED BOOKS
-        borrowedBooks.add("Java Programming");
-        overdueStatus.add(false);
-        overdueDays.add(0);
-
-        borrowedBooks.add("Database System");
-        overdueStatus.add(true);
-        overdueDays.add(4);
-
-        borrowedBooks.add("Web Development");
-        overdueStatus.add(true);
-        overdueDays.add(2);
-    }
-
-    // ====================================
-    // REPORT 1
-    // CURRENTLY BORROWED BOOKS
-    // ====================================
-    static void showBorrowedBooks() {
-
+        // REPORT 1
         System.out.println("\n===== CURRENTLY BORROWED BOOKS =====");
 
-        for (int i = 0; i < borrowedBooks.size(); i++) {
-
-            System.out.println((i + 1) + ". " + borrowedBooks.get(i));
-        }
-    }
-
-    // ====================================
-    // REPORT 2
-    // OVERDUE BOOKS
-    // ====================================
-    static void showOverdueBooks() {
-
-        System.out.println("\n===== OVERDUE BOOKS =====");
-
-        boolean found = false;
-
-        for (int i = 0; i < borrowedBooks.size(); i++) {
-
-            if (overdueStatus.get(i)) {
-
-                int fine = overdueDays.get(i) * FINE_PER_DAY;
-
-                System.out.println("Book: " + borrowedBooks.get(i));
-                System.out.println("Overdue Days: " + overdueDays.get(i));
-                System.out.println("Fine: " + fine + " VND");
-                System.out.println("--------------------------");
-
-                found = true;
+        for (int i = 0; i < borrowedBooks.length; i++) {
+            if (!returned[i]) {
+                System.out.println(
+                        borrowedBooks[i]
+                        + " | Borrowed by: "
+                        + borrowers[i]
+                );
             }
         }
 
-        if (!found) {
-            System.out.println("No overdue books.");
+        // REPORT 2
+        System.out.println("\n===== OVERDUE BOOKS =====");
+
+        for (int i = 0; i < borrowedBooks.length; i++) {
+            if (overdue[i]) {
+                System.out.println(
+                        borrowedBooks[i]
+                        + " | Borrowed by: "
+                        + borrowers[i]
+                );
+            }
         }
-    }
 
-    // ====================================
-    // REPORT 3
-    // MOST POPULAR BOOKS
-    // ====================================
-    static void showPopularBooks() {
-
+        // REPORT 3
         System.out.println("\n===== MOST POPULAR BOOKS =====");
 
-        for (int i = 0; i < bookTitles.size(); i++) {
+        for (int i = 0; i < bookTitles.length - 1; i++) {
 
-            System.out.println(bookTitles.get(i)
-                    + " - Borrowed "
-                    + borrowCounts.get(i)
-                    + " times");
+            for (int j = i + 1; j < bookTitles.length; j++) {
+
+                if (borrowCounts[j] > borrowCounts[i]) {
+
+                    int tempCount = borrowCounts[i];
+                    borrowCounts[i] = borrowCounts[j];
+                    borrowCounts[j] = tempCount;
+
+                    String tempTitle = bookTitles[i];
+                    bookTitles[i] = bookTitles[j];
+                    bookTitles[j] = tempTitle;
+                }
+            }
         }
-    }
 
-    // ====================================
-    // REPORT 4
-    // MEMBERS WITH MOST BORROWINGS
-    // ====================================
-    static void showTopMembers() {
+        for (int i = 0; i < bookTitles.length; i++) {
 
-        System.out.println("\n===== MEMBERS WITH MOST BORROWINGS =====");
-
-        for (int i = 0; i < memberNames.size(); i++) {
-
-            System.out.println(memberNames.get(i)
-                    + " - Total Borrowings: "
-                    + memberBorrowCounts.get(i));
+            System.out.println(
+                    bookTitles[i]
+                    + " | Borrowed "
+                    + borrowCounts[i]
+                    + " times"
+            );
         }
+
+        // REPORT 4
+        System.out.println("\n===== TOP BORROWING MEMBERS =====");
+
+        Map<String, Integer> memberStats =
+                new HashMap<>();
+
+        for (String borrower : borrowers) {
+
+            memberStats.put(
+                    borrower,
+                    memberStats.getOrDefault(
+                            borrower,
+                            0
+                    ) + 1
+            );
+        }
+
+        memberStats.entrySet()
+                .stream()
+                .sorted((a, b) ->
+                        b.getValue() - a.getValue())
+                .forEach(entry ->
+
+                        System.out.println(
+                                entry.getKey()
+                                + " | Total Borrowings: "
+                                + entry.getValue()
+                        )
+                );
     }
 }
