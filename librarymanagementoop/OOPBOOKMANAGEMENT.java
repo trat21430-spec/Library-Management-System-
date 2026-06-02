@@ -1,0 +1,58 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.oopbookmanagement;
+
+/**
+ *
+ * @author LOQ
+ */
+import java.util.Scanner;
+import java.util.ArrayList;
+public class OOPBOOKMANAGEMENT {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ArrayList<Books> bookManageList = new ArrayList<>();
+        int choice;
+        do{
+            System.out.println("=========================");
+            System.out.println("BOOK MANAGEMENT!!!");
+            System.out.println("=========================");
+            System.out.println("1-ADD BOOK");
+            System.out.println("2-UPDATE BOOK");
+            System.out.println("3-REMOVE BOOK");
+            System.out.println("4-SEARCH BOOK");
+            System.out.println("5-VIEW BOOK");
+            System.out.println("0-EXIT!");
+            System.out.println("--------------------------");
+            System.out.print("choose an option: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+            
+            switch (choice){
+                case 1:
+                    AddBooks addAction = new AddBooks();
+                    addAction.execute(bookManageList, sc);
+                    break;
+                case 2:
+                    UpdateBooks updateAction = new UpdateBooks();
+                    updateAction.execute(bookManageList, sc);
+                    break;
+                case 3:
+                    RemoveBooks removeAction = new RemoveBooks();
+                    removeAction.execute(sc, bookManageList);
+                    break;
+                case 4:
+                    SearchBooks searchAction = new SearchBooks();
+                    searchAction.execute(bookManageList, sc);
+                    break;
+                case 5:
+                    ViewBooks viewAction = new ViewBooks();
+                    viewAction.execute(bookManageList, sc);
+            }
+        }while(choice != 0);
+      sc.close();
+    }
+}
