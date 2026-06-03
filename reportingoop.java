@@ -1,11 +1,10 @@
-
 import java.time.LocalDate;
 import java.util.*;
 
+// ================= BOOK =================
 class Book {
-
-    private final String title;
-    private final int borrowCount;
+    private String title;
+    private int borrowCount;
 
     public Book(String title, int borrowCount) {
         this.title = title;
@@ -20,16 +19,19 @@ class Book {
         return borrowCount;
     }
 
+    public void increaseBorrowCount() {
+        borrowCount++;
+    }
+
     @Override
     public String toString() {
-        return title + " | Borrowed: "
-                + borrowCount + " times";
+        return title + " | Borrowed: " + borrowCount + " times";
     }
 }
 
+// ================= MEMBER =================
 class Member {
-
-    private final String name;
+    private String name;
 
     public Member(String name) {
         this.name = name;
@@ -40,12 +42,13 @@ class Member {
     }
 }
 
+// ================= TRANSACTION =================
 class BorrowingTransaction {
 
-    private final Book book;
-    private final Member member;
-    private final LocalDate dueDate;
-    private final boolean returned;
+    private Book book;
+    private Member member;
+    private LocalDate dueDate;
+    private boolean returned;
 
     public BorrowingTransaction(Book book,
                                 Member member,
@@ -78,109 +81,222 @@ class BorrowingTransaction {
     @Override
     public String toString() {
 
-        return "Book: " + book.getTitle()
+        return "Book: "
+                + book.getTitle()
                 + " | Member: "
                 + member.getName();
     }
 }
 
-public class reportingoop {
+// ================= MAIN =================
+public class reportingoopjava {
 
-    public static void main(String[] args) {
+    static Scanner sc = new Scanner(System.in);
 
-        // BOOKS
-        Book b1 = new Book(
-                "Java Programming", 5);
+    static List<Book> books = new ArrayList<>();
+    static List<Member> members = new ArrayList<>();
+    static List<BorrowingTransaction> transactions =
+            new ArrayList<>();
 
-        Book b2 = new Book(
-                "Database Systems", 3);
+    // ================= MENU =================
+    public static void showMenu() {
 
-        Book b3 = new Book(
-                "Operating System", 7);
+        System.out.println("\n====================================");
+        System.out.println("      LIBRARY REPORTING SYSTEM");
+        System.out.println("====================================");
+        System.out.println("1. Add Book");
+        System.out.println("2. Add Member");
+        System.out.println("3. Add Borrowing Transaction");
+        System.out.println("4. Currently Borrowed Books");
+        System.out.println("5. Overdue Books");
+        System.out.println("6. Most Popular Books");
+        System.out.println("7. Top Borrowing Members");
+        System.out.println("8. Exit");
+        System.out.println("====================================");
+        System.out.print("Enter your choice: ");
+    }
 
-        // MEMBERS
-        Member m1 = new Member("Khoa");
-        Member m2 = new Member("An");
+    // ================= PAUSE =================
+    public static void pressEnter() {
 
-        // LIST BOOKS
-        List<Book> books = new ArrayList<>();
+        System.out.print("\nPress Enter to continue...");
+        sc.nextLine();
+    }
 
-        books.add(b1);
-        books.add(b2);
-        books.add(b3);
+    // ================= ADD BOOK =================
+    public static void addBook() {
 
-        // TRANSACTIONS
-        List<BorrowingTransaction> transactions =
-                new ArrayList<>();
+        System.out.print("Enter Book Title: ");
+        String title = sc.nextLine();
+
+        System.out.print("Enter Borrow Count: ");
+        int count = Integer.parseInt(sc.nextLine());
+
+        books.add(new Book(title, count));
+
+        System.out.println("Book added successfully!");
+    }
+
+    // ================= ADD MEMBER =================
+    public static void addMember() {
+
+        System.out.print("Enter Member Name: ");
+        String name = sc.nextLine();
+
+        members.add(new Member(name));
+
+        System.out.println("Member added successfully!");
+    }
+
+    // ================= ADD TRANSACTION =================
+    public static void addTransaction() {
+
+        if (books.isEmpty()) {
+            System.out.println("No books available!");
+            return;
+        }
+
+        if (members.isEmpty()) {
+            System.out.println("No members available!");
+            return;
+        }
+
+        System.out.println("\nAvailable Books:");
+
+        for (int i = 0; i < books.size(); i++) {
+
+            System.out.println(
+                    (i + 1)
+                            + ". "
+                            + books.get(i).getTitle()
+            );
+        }
+
+        System.out.print("Choose Book: ");
+        int bookChoice =
+                Integer.parseInt(sc.nextLine());
+
+        System.out.println("\nAvailable Members:");
+
+        for (int i = 0; i < members.size(); i++) {
+
+            System.out.println(
+                    (i + 1)
+                            + ". "
+                            + members.get(i).getName()
+            );
+        }
+
+        System.out.print("Choose Member: ");
+        int memberChoice =
+                Integer.parseInt(sc.nextLine());
+
+        System.out.print(
+                "Returned (true/false): ");
+        boolean returned =
+                Boolean.parseBoolean(
+                        sc.nextLine()
+                );
+
+        System.out.print(
+                "Due days from today: ");
+        int days =
+                Integer.parseInt(
+                        sc.nextLine()
+                );
+
+        Book selectedBook =
+                books.get(bookChoice - 1);
+
+        Member selectedMember =
+                members.get(memberChoice - 1);
+
+        selectedBook.increaseBorrowCount();
 
         transactions.add(
                 new BorrowingTransaction(
-                        b1,
-                        m1,
-                        LocalDate.now().plusDays(3),
-                        false
+                        selectedBook,
+                        selectedMember,
+                        LocalDate.now()
+                                .plusDays(days),
+                        returned
                 )
         );
 
-        transactions.add(
-                new BorrowingTransaction(
-                        b2,
-                        m2,
-                        LocalDate.now().minusDays(2),
-                        false
-                )
-        );
-
-        transactions.add(
-                new BorrowingTransaction(
-                        b3,
-                        m1,
-                        LocalDate.now().plusDays(5),
-                        true
-                )
-        );
-
-        // REPORT 1
         System.out.println(
-                "\n===== CURRENTLY BORROWED BOOKS ====="
-        );
+                "Transaction added successfully!");
+    }
+
+    // ================= REPORT 1 =================
+    public static void currentBorrowedBooks() {
+
+        System.out.println(
+                "\n===== CURRENTLY BORROWED BOOKS =====");
+
+        boolean found = false;
 
         for (BorrowingTransaction t : transactions) {
 
             if (!t.isReturned()) {
+
                 System.out.println(t);
+                found = true;
             }
         }
 
-        // REPORT 2
+        if (!found) {
+            System.out.println(
+                    "No borrowed books found.");
+        }
+    }
+
+    // ================= REPORT 2 =================
+    public static void overdueBooks() {
+
         System.out.println(
-                "\n===== OVERDUE BOOKS ====="
-        );
+                "\n===== OVERDUE BOOKS =====");
+
+        boolean found = false;
 
         for (BorrowingTransaction t : transactions) {
 
             if (t.isOverdue()) {
+
                 System.out.println(t);
+                found = true;
             }
         }
 
-     
+        if (!found) {
+            System.out.println(
+                    "No overdue books found.");
+        }
+    }
+
+    // ================= REPORT 3 =================
+    public static void popularBooks() {
+
         System.out.println(
-                "\n===== MOST POPULAR BOOKS ====="
-        );
+                "\n===== MOST POPULAR BOOKS =====");
 
-        books.sort((x, y) ->
-                y.getBorrowCount()
-                        - x.getBorrowCount());
+        List<Book> sorted =
+                new ArrayList<>(books);
 
-        for (Book b : books) {
+        sorted.sort((a, b) ->
+                b.getBorrowCount()
+                        - a.getBorrowCount());
+
+        for (Book b : sorted) {
+
             System.out.println(b);
         }
+    }
 
-        // REPORT 4
+    // ================= REPORT 4 =================
+    public static void topMembers() {
+
         System.out.println(
-                "\n===== TOP BORROWING MEMBERS ====="
-        );
+                "\n===== TOP BORROWING MEMBERS =====");
 
         Map<String, Integer> stats =
                 new HashMap<>();
@@ -192,25 +308,99 @@ public class reportingoop {
 
             stats.put(
                     name,
-                    stats.getOrDefault(name, 0) + 1
+                    stats.getOrDefault(
+                            name,
+                            0
+                    ) + 1
             );
         }
 
         stats.entrySet()
                 .stream()
                 .sorted((a, b) ->
-                        b.getValue() - a.getValue())
+                        b.getValue()
+                                - a.getValue())
                 .forEach(entry ->
 
                         System.out.println(
                                 entry.getKey()
                                         + " | Total Borrowings: "
                                         + entry.getValue()
-                        )
-                );
+                        ));
+    }
+
+    // ================= MAIN =================
+    public static void main(String[] args) {
+
+        int choice;
+
+        do {
+
+            showMenu();
+
+            try {
+
+                choice =
+                        Integer.parseInt(
+                                sc.nextLine());
+
+                switch (choice) {
+
+                    case 1:
+                        addBook();
+                        pressEnter();
+                        break;
+
+                    case 2:
+                        addMember();
+                        pressEnter();
+                        break;
+
+                    case 3:
+                        addTransaction();
+                        pressEnter();
+                        break;
+
+                    case 4:
+                        currentBorrowedBooks();
+                        pressEnter();
+                        break;
+
+                    case 5:
+                        overdueBooks();
+                        pressEnter();
+                        break;
+
+                    case 6:
+                        popularBooks();
+                        pressEnter();
+                        break;
+
+                    case 7:
+                        topMembers();
+                        pressEnter();
+                        break;
+
+                    case 8:
+                        System.out.println(
+                                "\nThank you for using the system!");
+                        break;
+
+                    default:
+                        System.out.println(
+                                "Invalid choice!");
+                }
+
+            } catch (Exception e) {
+
+                System.out.println(
+                        "Invalid input!");
+                choice = 0;
+            }
+
+        } while (choice != 8);
     }
 }
 
-        
         
         
