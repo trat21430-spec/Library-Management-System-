@@ -1,9 +1,11 @@
 package com.mycompany.reportingoopjava;
+
 import java.time.LocalDate;
 import java.util.*;
 
 // ================= BOOK =================
 class Book {
+
     private String title;
     private int borrowCount;
 
@@ -32,6 +34,7 @@ class Book {
 
 // ================= MEMBER =================
 class Member {
+
     private String name;
 
     public Member(String name) {
@@ -51,10 +54,11 @@ class BorrowingTransaction {
     private LocalDate dueDate;
     private boolean returned;
 
-    public BorrowingTransaction(Book book,
-                                Member member,
-                                LocalDate dueDate,
-                                boolean returned) {
+    public BorrowingTransaction(
+            Book book,
+            Member member,
+            LocalDate dueDate,
+            boolean returned) {
 
         this.book = book;
         this.member = member;
@@ -75,8 +79,8 @@ class BorrowingTransaction {
     }
 
     public boolean isOverdue() {
-        return !returned &&
-                LocalDate.now().isAfter(dueDate);
+        return !returned
+                && LocalDate.now().isAfter(dueDate);
     }
 
     @Override
@@ -89,18 +93,18 @@ class BorrowingTransaction {
     }
 }
 
-// ================= MAIN =================
+// ================= MAIN CLASS =================
 public class reportingoopjava {
 
-    static Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
-    static List<Book> books = new ArrayList<>();
-    static List<Member> members = new ArrayList<>();
-    static List<BorrowingTransaction> transactions =
+    private List<Book> books = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
+    private List<BorrowingTransaction> transactions =
             new ArrayList<>();
 
     // ================= MENU =================
-    public static void showMenu() {
+    public void showMenu() {
 
         System.out.println("\n====================================");
         System.out.println("      LIBRARY REPORTING SYSTEM");
@@ -118,14 +122,14 @@ public class reportingoopjava {
     }
 
     // ================= PAUSE =================
-    public static void pressEnter() {
+    public void pressEnter() {
 
         System.out.print("\nPress Enter to continue...");
         sc.nextLine();
     }
 
     // ================= ADD BOOK =================
-    public static void addBook() {
+    public void addBook() {
 
         System.out.print("Enter Book Title: ");
         String title = sc.nextLine();
@@ -139,7 +143,7 @@ public class reportingoopjava {
     }
 
     // ================= ADD MEMBER =================
-    public static void addMember() {
+    public void addMember() {
 
         System.out.print("Enter Member Name: ");
         String name = sc.nextLine();
@@ -150,7 +154,7 @@ public class reportingoopjava {
     }
 
     // ================= ADD TRANSACTION =================
-    public static void addTransaction() {
+    public void addTransaction() {
 
         if (books.isEmpty()) {
             System.out.println("No books available!");
@@ -168,9 +172,8 @@ public class reportingoopjava {
 
             System.out.println(
                     (i + 1)
-                            + ". "
-                            + books.get(i).getTitle()
-            );
+                    + ". "
+                    + books.get(i).getTitle());
         }
 
         System.out.print("Choose Book: ");
@@ -183,28 +186,21 @@ public class reportingoopjava {
 
             System.out.println(
                     (i + 1)
-                            + ". "
-                            + members.get(i).getName()
-            );
+                    + ". "
+                    + members.get(i).getName());
         }
 
         System.out.print("Choose Member: ");
         int memberChoice =
                 Integer.parseInt(sc.nextLine());
 
-        System.out.print(
-                "Returned (true/false): ");
+        System.out.print("Returned (true/false): ");
         boolean returned =
-                Boolean.parseBoolean(
-                        sc.nextLine()
-                );
+                Boolean.parseBoolean(sc.nextLine());
 
-        System.out.print(
-                "Due days from today: ");
+        System.out.print("Due days from today: ");
         int days =
-                Integer.parseInt(
-                        sc.nextLine()
-                );
+                Integer.parseInt(sc.nextLine());
 
         Book selectedBook =
                 books.get(bookChoice - 1);
@@ -218,8 +214,7 @@ public class reportingoopjava {
                 new BorrowingTransaction(
                         selectedBook,
                         selectedMember,
-                        LocalDate.now()
-                                .plusDays(days),
+                        LocalDate.now().plusDays(days),
                         returned
                 )
         );
@@ -229,7 +224,7 @@ public class reportingoopjava {
     }
 
     // ================= REPORT 1 =================
-    public static void currentBorrowedBooks() {
+    public void currentBorrowedBooks() {
 
         System.out.println(
                 "\n===== CURRENTLY BORROWED BOOKS =====");
@@ -252,7 +247,7 @@ public class reportingoopjava {
     }
 
     // ================= REPORT 2 =================
-    public static void overdueBooks() {
+    public void overdueBooks() {
 
         System.out.println(
                 "\n===== OVERDUE BOOKS =====");
@@ -275,7 +270,7 @@ public class reportingoopjava {
     }
 
     // ================= REPORT 3 =================
-    public static void popularBooks() {
+    public void popularBooks() {
 
         System.out.println(
                 "\n===== MOST POPULAR BOOKS =====");
@@ -283,8 +278,9 @@ public class reportingoopjava {
         List<Book> sorted =
                 new ArrayList<>(books);
 
-        sorted.sort((a, b) ->
-                b.getBorrowCount()
+        sorted.sort(
+                (a, b) ->
+                        b.getBorrowCount()
                         - a.getBorrowCount());
 
         for (Book b : sorted) {
@@ -294,7 +290,7 @@ public class reportingoopjava {
     }
 
     // ================= REPORT 4 =================
-    public static void topMembers() {
+    public void topMembers() {
 
         System.out.println(
                 "\n===== TOP BORROWING MEMBERS =====");
@@ -309,33 +305,31 @@ public class reportingoopjava {
 
             stats.put(
                     name,
-                    stats.getOrDefault(
-                            name,
-                            0
-                    ) + 1
+                    stats.getOrDefault(name, 0) + 1
             );
         }
 
         stats.entrySet()
                 .stream()
-                .sorted((a, b) ->
-                        b.getValue()
+                .sorted(
+                        (a, b) ->
+                                b.getValue()
                                 - a.getValue())
-                .forEach(entry ->
-
-                        System.out.println(
-                                entry.getKey()
+                .forEach(
+                        entry ->
+                                System.out.println(
+                                        entry.getKey()
                                         + " | Total Borrowings: "
                                         + entry.getValue()
-                        ));
+                                ));
     }
 
-    // ================= MAIN =================
-    public static void main(String[] args) {
+    // ================= RUN =================
+    public void run() {
 
-        int choice;
+        int choice = 0;
 
-        do {
+        while (choice != 8) {
 
             showMenu();
 
@@ -349,37 +343,30 @@ public class reportingoopjava {
 
                     case 1:
                         addBook();
-                        pressEnter();
                         break;
 
                     case 2:
                         addMember();
-                        pressEnter();
                         break;
 
                     case 3:
                         addTransaction();
-                        pressEnter();
                         break;
 
                     case 4:
                         currentBorrowedBooks();
-                        pressEnter();
                         break;
 
                     case 5:
                         overdueBooks();
-                        pressEnter();
                         break;
 
                     case 6:
                         popularBooks();
-                        pressEnter();
                         break;
 
                     case 7:
                         topMembers();
-                        pressEnter();
                         break;
 
                     case 8:
@@ -392,16 +379,24 @@ public class reportingoopjava {
                                 "Invalid choice!");
                 }
 
+                if (choice != 8) {
+                    pressEnter();
+                }
+
             } catch (Exception e) {
 
                 System.out.println(
                         "Invalid input!");
-                choice = 0;
             }
+        }
+    }
 
-        } while (choice != 8);
+    // ================= MAIN =================
+    public static void main(String[] args) {
+
+        reportingoopjava app =
+                new reportingoopjava();
+
+        app.run();
     }
 }
-
-        
-        
