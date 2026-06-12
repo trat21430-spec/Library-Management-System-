@@ -9,5 +9,7 @@ package LibraryManagement;
  * @author ACER
  */
 public class libraryManagement {
-    
+    public static void main(String[] args) {
+        
+    }
 }
