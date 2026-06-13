@@ -14,39 +14,51 @@ public class memberManager {
     }
 
     // Add Member
-    public void addMember() {
+public void addMember() {
 
-        try {
-            System.out.println("\nADD MEMBER");
+    try {
+        System.out.println("\nADD MEMBER");
 
-            System.out.print("Enter Member ID: ");
-            String id = this.sc.nextLine();
+        System.out.print("Enter Member ID: ");
+        String id = this.sc.nextLine();
 
-            if (this.findMemberById(id) != null) {
-                System.out.println("Member ID already exists.");
-                return;
-            }
-
-            System.out.print("Enter Name: ");
-            String name = this.sc.nextLine();
-
-            System.out.print("Enter Phone: ");
-            String phone = this.sc.nextLine();
-
-            System.out.print("Enter Email: ");
-            String email = this.sc.nextLine();
-
-            member m = new member(id, name, phone, email);
-
-            this.memberList.add(m);
-
-            System.out.println("Member added successfully.");
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        if (this.findMemberById(id) != null) {
+            System.out.println("Member ID already exists.");
+            return;
         }
-    }
 
+        System.out.print("Enter Name: ");
+        String name = this.sc.nextLine();
+
+        System.out.print("Enter Phone: ");
+        String phone = this.sc.nextLine();
+
+        System.out.print("Enter Email: ");
+        String email = this.sc.nextLine();
+
+        System.out.println("Choose Member Type:");
+        System.out.println("1. Regular Member");
+        System.out.println("2. Premium Member");
+        System.out.print("Your choice: ");
+
+        int choice = Integer.parseInt(sc.nextLine());
+
+        member m;
+
+        if (choice == 1) {
+            m = new RegularMember(id, name, phone, email);
+        } else {
+            m = new PremiumMember(id, name, phone, email);
+        }
+
+        this.memberList.add(m);
+
+        System.out.println("Member added successfully.");
+
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+}
     // Update Member
     public void updateMember() {
 
@@ -123,31 +135,30 @@ public class memberManager {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
-    // View All Members
     public void viewAllMembers() {
 
-        try {
+    try {
 
-            System.out.println("\nMEMBER LIST");
+        System.out.println("\nMEMBER LIST");
 
-            if (this.memberList.isEmpty()) {
-                System.out.println("No members found.");
-                return;
-            }
-
-            System.out.printf("%-10s %-20s %-15s %-25s %-5s%n",
-                    "ID", "Name", "Phone", "Email", "Books");
-
-            for (member m : this.memberList) {
-                m.displayInfo();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        if (this.memberList.isEmpty()) {
+            System.out.println("No members found.");
+            return;
         }
-    }
 
+        System.out.printf("%-10s %-20s %-15s %-25s %-5s %-15s%n",
+                "ID", "Name", "Phone", "Email", "Books", "Type");
+
+        for (member m : this.memberList) {
+            m.displayInfo();
+        }
+
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+}
+
+ 
     // Search Member
     public void searchMember() {
 
@@ -189,5 +200,17 @@ public class memberManager {
         }
 
         return null;
+    }
+
+    private static class PremiumMember {
+
+        public PremiumMember(String id, String name, String phone, String email) {
+        }
+    }
+
+    private static class RegularMember {
+
+        public RegularMember(String id, String name, String phone, String email) {
+        }
     }
 }
