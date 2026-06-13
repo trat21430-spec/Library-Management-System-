@@ -50,8 +50,7 @@ public class memberManager {
             System.out.println("2. Premium Member");
             System.out.print("Your choice: ");
 
-            String choiceInput = sc.nextLine().trim();
-            int choice = Integer.parseInt(choiceInput);
+            int choice = Integer.parseInt(sc.nextLine().trim());
 
             if (choice != 1 && choice != 2) {
                 System.out.println("Invalid choice. Please enter 1 or 2.");
@@ -139,8 +138,7 @@ public class memberManager {
             }
 
             if (m.getBorrowedBooks() > 0) {
-                System.out.println("Cannot remove member because they still have "
-                        + m.getBorrowedBooks() + " borrowed book(s).");
+                System.out.println("Cannot remove member because borrowed books still exist.");
                 return;
             }
 
@@ -164,11 +162,9 @@ public class memberManager {
 
             printHeader();
 
-            for (Member m : this.memberList) {
+            for (member m : this.memberList) {
                 m.displayInfo();
             }
-
-            System.out.println("Total members: " + memberList.size());
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -190,7 +186,7 @@ public class memberManager {
 
             boolean found = false;
 
-            for (Member m : this.memberList) {
+            for (member m : this.memberList) {
                 if (m.getId().toLowerCase().contains(keyword)
                         || m.getName().toLowerCase().contains(keyword)) {
 
@@ -213,8 +209,8 @@ public class memberManager {
     }
 
     // Find Member By ID
-    public Member findMemberById(String id) {
-        for (Member m : this.memberList) {
+    public member findMemberById(String id) {
+        for (member m : this.memberList) {
             if (m.getId().equalsIgnoreCase(id)) {
                 return m;
             }
@@ -226,11 +222,15 @@ public class memberManager {
     private void printHeader() {
         System.out.printf("%-10s %-20s %-15s %-25s %-5s %-15s%n",
                 "ID", "Name", "Phone", "Email", "Books", "Type");
-        System.out.println("-".repeat(95));
+        for (int i = 0; i < 100; i++) {
+            System.out.print("-");
+            System.out.println();
+            
+        }
     }
 
-    // Get member list (for use by other managers e.g. borrow/return)
-    public ArrayList<Member> getMemberList() {
+    // Get member list
+    public ArrayList<member> getMemberList() {
         return memberList;
     }
 }
