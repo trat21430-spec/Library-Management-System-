@@ -1,4 +1,4 @@
-package librarymanagement;
+package Librarymanagement;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,59 +14,75 @@ public class memberManager {
     }
 
     // Add Member
-public void addMember() {
+    public void addMember() {
+        try {
+            System.out.println("\nADD MEMBER");
 
-    try {
-        System.out.println("\nADD MEMBER");
+            System.out.print("Enter Member ID: ");
+            String id = this.sc.nextLine().trim();
 
-        System.out.print("Enter Member ID: ");
-        String id = this.sc.nextLine();
+            if (id.isEmpty()) {
+                System.out.println("Member ID cannot be empty.");
+                return;
+            }
 
-        if (this.findMemberById(id) != null) {
-            System.out.println("Member ID already exists.");
-            return;
+            if (this.findMemberById(id) != null) {
+                System.out.println("Member ID already exists.");
+                return;
+            }
+
+            System.out.print("Enter Name: ");
+            String name = this.sc.nextLine().trim();
+
+            if (name.isEmpty()) {
+                System.out.println("Name cannot be empty.");
+                return;
+            }
+
+            System.out.print("Enter Phone: ");
+            String phone = this.sc.nextLine().trim();
+
+            System.out.print("Enter Email: ");
+            String email = this.sc.nextLine().trim();
+
+            System.out.println("Choose Member Type:");
+            System.out.println("1. Regular Member");
+            System.out.println("2. Premium Member");
+            System.out.print("Your choice: ");
+
+            String choiceInput = sc.nextLine().trim();
+            int choice = Integer.parseInt(choiceInput);
+
+            if (choice != 1 && choice != 2) {
+                System.out.println("Invalid choice. Please enter 1 or 2.");
+                return;
+            }
+
+            member m;
+
+            if (choice == 1) {
+                m = new regularMember(id, name, phone, email);
+            } else {
+                m = new premiumMember(id, name, phone, email);
+            }
+
+            this.memberList.add(m);
+            System.out.println("Member added successfully.");
+
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number for member type.");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        System.out.print("Enter Name: ");
-        String name = this.sc.nextLine();
-
-        System.out.print("Enter Phone: ");
-        String phone = this.sc.nextLine();
-
-        System.out.print("Enter Email: ");
-        String email = this.sc.nextLine();
-
-        System.out.println("Choose Member Type:");
-        System.out.println("1. Regular Member");
-        System.out.println("2. Premium Member");
-        System.out.print("Your choice: ");
-
-        int choice = Integer.parseInt(sc.nextLine());
-
-        member m;
-
-        if (choice == 1) {
-            m = new RegularMember(id, name, phone, email);
-        } else {
-            m = new PremiumMember(id, name, phone, email);
-        }
-
-        this.memberList.add(m);
-
-        System.out.println("Member added successfully.");
-
-    } catch (Exception e) {
-        System.out.println("Error: " + e.getMessage());
     }
-}
+
     // Update Member
     public void updateMember() {
-
         try {
             System.out.println("\nUPDATE MEMBER");
 
             System.out.print("Enter Member ID: ");
-            String id = this.sc.nextLine();
+            String id = this.sc.nextLine().trim();
 
             member m = this.findMemberById(id);
 
@@ -76,16 +92,17 @@ public void addMember() {
             }
 
             System.out.println("Current Information:");
+            printHeader();
             m.displayInfo();
 
             System.out.print("Enter new Name (blank to skip): ");
-            String newName = this.sc.nextLine();
+            String newName = this.sc.nextLine().trim();
 
             System.out.print("Enter new Phone (blank to skip): ");
-            String newPhone = this.sc.nextLine();
+            String newPhone = this.sc.nextLine().trim();
 
             System.out.print("Enter new Email (blank to skip): ");
-            String newEmail = this.sc.nextLine();
+            String newEmail = this.sc.nextLine().trim();
 
             if (!newName.isEmpty()) {
                 m.setName(newName);
@@ -108,12 +125,11 @@ public void addMember() {
 
     // Remove Member
     public void removeMember() {
-
         try {
             System.out.println("\nREMOVE MEMBER");
 
             System.out.print("Enter Member ID: ");
-            String id = this.sc.nextLine();
+            String id = this.sc.nextLine().trim();
 
             member m = this.findMemberById(id);
 
@@ -123,57 +139,64 @@ public void addMember() {
             }
 
             if (m.getBorrowedBooks() > 0) {
-                System.out.println("Cannot remove member because borrowed books still exist.");
+                System.out.println("Cannot remove member because they still have "
+                        + m.getBorrowedBooks() + " borrowed book(s).");
                 return;
             }
 
             this.memberList.remove(m);
-
             System.out.println("Member removed successfully.");
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    // View All Members
     public void viewAllMembers() {
+        try {
+            System.out.println("\nMEMBER LIST");
 
-    try {
+            if (this.memberList.isEmpty()) {
+                System.out.println("No members found.");
+                return;
+            }
 
-        System.out.println("\nMEMBER LIST");
+            printHeader();
 
-        if (this.memberList.isEmpty()) {
-            System.out.println("No members found.");
-            return;
+            for (Member m : this.memberList) {
+                m.displayInfo();
+            }
+
+            System.out.println("Total members: " + memberList.size());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        System.out.printf("%-10s %-20s %-15s %-25s %-5s %-15s%n",
-                "ID", "Name", "Phone", "Email", "Books", "Type");
-
-        for (member m : this.memberList) {
-            m.displayInfo();
-        }
-
-    } catch (Exception e) {
-        System.out.println("Error: " + e.getMessage());
     }
-}
 
- 
     // Search Member
     public void searchMember() {
-
         try {
             System.out.println("\nSEARCH MEMBER");
 
             System.out.print("Enter Name or ID: ");
-            String keyword = this.sc.nextLine().toLowerCase();
+            String keyword = this.sc.nextLine().trim().toLowerCase();
+
+            if (keyword.isEmpty()) {
+                System.out.println("Search keyword cannot be empty.");
+                return;
+            }
 
             boolean found = false;
 
-            for (member m : this.memberList) {
-
+            for (Member m : this.memberList) {
                 if (m.getId().toLowerCase().contains(keyword)
                         || m.getName().toLowerCase().contains(keyword)) {
+
+                    if (!found) {
+                        printHeader();
+                    }
 
                     m.displayInfo();
                     found = true;
@@ -190,27 +213,24 @@ public void addMember() {
     }
 
     // Find Member By ID
-    public member findMemberById(String id) {
-
-        for (member m : this.memberList) {
-
+    public Member findMemberById(String id) {
+        for (Member m : this.memberList) {
             if (m.getId().equalsIgnoreCase(id)) {
                 return m;
             }
         }
-
         return null;
     }
 
-    private static class PremiumMember {
-
-        public PremiumMember(String id, String name, String phone, String email) {
-        }
+    // Print table header
+    private void printHeader() {
+        System.out.printf("%-10s %-20s %-15s %-25s %-5s %-15s%n",
+                "ID", "Name", "Phone", "Email", "Books", "Type");
+        System.out.println("-".repeat(95));
     }
 
-    private static class RegularMember {
-
-        public RegularMember(String id, String name, String phone, String email) {
-        }
+    // Get member list (for use by other managers e.g. borrow/return)
+    public ArrayList<Member> getMemberList() {
+        return memberList;
     }
 }

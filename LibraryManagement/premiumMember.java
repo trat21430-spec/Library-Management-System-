@@ -1,14 +1,14 @@
 package LibraryManagement;
 
-public class regularMember extends member {
+public class premiumMember extends member {
 
-    public regularMember(String id, String name,
+    public premiumMember(String id, String name,
                          String phone, String email) {
         super(id, name, phone, email);
     }
 
     @Override
     public int getBorrowLimit() {
-        return 3;
+        return 5;
     }
 }
