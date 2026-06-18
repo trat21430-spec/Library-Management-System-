@@ -2,36 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author LOQ
  */
 package Librarymanagement;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class BookService {
 
     public void addBooks(ArrayList<Books> bookList, Scanner sc) {
+
         System.out.println("------------ADD BOOK----------");
-        
-        
+
+        System.out.print("Type: [1] Regular Book  [2] E-Book : ");
+        int type = sc.nextInt();
+        sc.nextLine();
+
         System.out.print("Book ID: ");
         String tempId = sc.nextLine();
-        
+
         System.out.print("Title: ");
         String tempTitle = sc.nextLine();
-        
+
         System.out.print("Author: ");
         String tempAuthor = sc.nextLine();
-        
+
         System.out.print("Genre: ");
         String tempGenre = sc.nextLine();
-        
+
         System.out.print("Publication Year: ");
         int tempYear = sc.nextInt();
-        
+
         System.out.print("Quantity: ");
         int tempQty = sc.nextInt();
         sc.nextLine();
@@ -41,8 +45,15 @@ public class BookService {
         sc.nextLine();
 
         if (confirm == 1) {
-            Books newBook = new Books(tempId, tempTitle, tempAuthor, tempGenre, tempYear, tempQty);
-            
+            Books newBook;
+            if (type == 2) {
+                System.out.println("Enter file size: ");
+                double fileSize = sc.nextDouble();
+                sc.nextLine();
+              newBook = new EBooks(tempId, tempTitle, tempAuthor, tempGenre, tempYear, tempQty, fileSize);
+            } else {
+                newBook = new Books(tempId, tempTitle, tempAuthor, tempGenre, tempYear, tempQty);
+            }
             bookList.add(newBook);
             System.out.println("Successfully added!");
         } else {
