@@ -49,6 +49,6 @@ public class Member {
 
     @Override
     public String toString() {
-        return id + " | " + name + " | " + phone + " | " + email;
+        return this.id + " | " + this.name + " | " + this.phone + " | " + this.email;
     }
 }

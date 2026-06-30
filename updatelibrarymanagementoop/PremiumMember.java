@@ -11,11 +11,11 @@ public class PremiumMember extends Member {
     }
 
     public int getBorrowLimit() {
-        return borrowLimit;
+        return this.borrowLimit;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Limit: " + borrowLimit;
+        return super.toString() + " | Limit: " + this.borrowLimit;
     }
 }
