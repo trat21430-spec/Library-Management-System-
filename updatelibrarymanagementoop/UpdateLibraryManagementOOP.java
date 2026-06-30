@@ -1,20 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package updatelibrarymanagementoop;
 
-/**
- *
- * @author ACER
- */
 public class UpdateLibraryManagementOOP {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        MemberManager manager = new MemberManager();
+
+        manager.add(new Member("M01", "TRA", "0123", "tra@gmail.com"));
+
+        manager.add(new PremiumMember(
+                "M02",
+                "HUY",
+                "0999",
+                "huy@gmail.com",
+                5));
+
+        manager.show();
     }
-    
+
 }
